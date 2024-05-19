@@ -168,17 +168,32 @@ const Home = () => {
       <View style={[styles.translatedTextContainer,{borderRadius: 0, height:responsiveScreenHeight(7)}]}>
         <Text style={[styles.translatedTextTitle,{fontSize:responsiveFontSize(2.7)}]}>Translator</Text>
       </View>
+      <View style={{flexDirection:'row', justifyContent:'space-between',alignItems:'center', marginHorizontal:responsiveScreenWidth(10), marginTop:responsiveScreenHeight(12)}}>
+        <Text style={styles.toptext}>Detected</Text>
+        <View >
+          <Image source={require('../../../assets/icons/equal.png')} style={styles.icon} />
+          </View>
+        <Text style={styles.toptext}>English</Text>
+      </View>
       <View style={styles.inputSection}>
+        <View style={{flexDirection:'row', height:responsiveScreenHeight(15)}}>
         <TextInput
           style={styles.input}
           placeholder="Enter text..."
-          placeholderTextColor={"rgba(255,255,255,0.6)"}
+          placeholderTextColor={"rgba(0,0,0,0.6)"}
           value={inputText}
           onChangeText={setInputText}
           multiline={true}
         />
+         <TouchableOpacity style={{marginTop:10}} onPress={() => setInputText('') }>
+          <Image source={require('../../../assets/icons/cross.png')} style={styles.icon} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.iconContainer}>
         {isListening ? (
+           <TouchableOpacity onPress={() => (isListening ? stopListening() : startListening())}>
           <Image source={require('../../../assets/icons/dot2.png')} style={styles.icon} />
+          </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={() => (isListening ? stopListening() : startListening())}>
             <Image source={require('../../../assets/icons/mic.png')} style={styles.icon} />
@@ -187,13 +202,17 @@ const Home = () => {
         <TouchableOpacity onPress={handleTranslate}>
           <Image source={require('../../../assets/icons/search.png')} style={styles.icon} />
         </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.outputSection}>
         <View style={styles.translatedTextContainer}>
+          
           <Text style={styles.translatedTextTitle}> Translated Text </Text>
         </View>
+        <View style={[styles.output]}>
         <Text style={styles.outputText}>{translatedText}</Text>
+        </View>
       </View>
 
       <Model
@@ -207,36 +226,53 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#000000',
+    backgroundColor: 'rgba(255,255,255,0.7)',
     flex: 1,
-   
+  },
+  toptext:{
+    fontSize:responsiveFontSize(3),
+    fontWeight:'bold',
+    color:'#000000'
+  },
+  iconContainer:{
+    flexDirection:'row',
+    width:responsiveScreenWidth(40),
+    alignItems:'center',
+    justifyContent:'space-evenly',
+    marginBottom:responsiveScreenHeight(1)
   },
   inputSection: {
-    marginTop: responsiveScreenHeight(15),
+    marginTop: responsiveScreenHeight(3),
     marginHorizontal:responsiveScreenWidth(5),
-    flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#E45B5B',
-    borderWidth: 1,
-    borderRadius: 5,
+    backgroundColor:'#E0D8FC',
+    borderRadius: scale(16),
     paddingHorizontal: responsiveScreenWidth(5),
     width: responsiveScreenWidth(90),
+    height:responsiveScreenHeight(20)
+  },
+  output: {
+    marginTop: responsiveScreenHeight(2),
+    backgroundColor:'#E0D8FC',
+    borderRadius: scale(16),
+    width: responsiveScreenWidth(90),
+    height:responsiveScreenHeight(20)
   },
   icon: {
     width: scale(23),
     height: scale(23),
-    tintColor: '#FFFFFF',
+    tintColor: '#000000',
     marginLeft: 10,
   },
   input: {
     flex: 1,
     paddingHorizontal: 10,
-    color: '#FFFFFF',
-    maxHeight: responsiveScreenHeight(10),
+    color: '#000000',
     textAlignVertical: 'top',
+    width:responsiveScreenWidth(85)
   },
   outputSection: {
-    marginTop: responsiveScreenHeight(5),
+    marginTop: responsiveScreenHeight(2),
     justifyContent: 'center',
     marginHorizontal:responsiveScreenWidth(5)
   },
@@ -255,7 +291,7 @@ const styles = StyleSheet.create({
   outputText: {
     marginLeft: responsiveScreenWidth(5),
     marginTop: responsiveScreenHeight(3),
-    color: '#FFFFFF',
+    color: '#000000',
     fontSize: responsiveFontSize(2),
   },
 });
