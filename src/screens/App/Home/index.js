@@ -8,6 +8,7 @@ import firestore from '@react-native-firebase/firestore';
 import axios from 'axios';
 import Voice from '@react-native-voice/voice';
 import Tts from 'react-native-tts';
+import he from 'he'
 const Home = () => {
   const { user } = useContext(AuthContext);
   const [inputText, setInputText] = useState('');
@@ -129,9 +130,10 @@ const Home = () => {
         });
 
         const translated = response.data.data.translations[0].translatedText;
-        setTranslatedText(translated);
-
-        Tts.speak(translated)
+        const decodedTranslatedText = he.decode(translated);
+        setTranslatedText(decodedTranslatedText);
+  
+        Tts.speak(decodedTranslatedText);
 
         const historyRef = firestore().collection('History').doc(user.uid);
 
